@@ -1,5 +1,10 @@
 # MATH373_Spring2021_Project2_ammuth
 
+1) project2multiclass_iris.py is the code for part one using the iris dataset with gradient descent.
+2) multiclasslogisticregression.py is the code for part two using SGD on the MNIST data.
+3) ALL COMMENTARY ON PART 2 IS BELOW!
+
+
 *Note*
   The last chunk of code in the multiclasslogisticregression.py file should only be run seperately after the rest of the code runs. 
   
