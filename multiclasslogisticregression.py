@@ -118,7 +118,7 @@ for i in sortedIdxs:
     if agreement[i] == False:
         difficultExamples.append(i)
         
-        
+   
 #%%
 numCorrect = 0
 for i in range(N_test):
@@ -127,3 +127,9 @@ for i in range(N_test):
 
 accuracy = numCorrect/N_test
 print('Accuracy: ' + str(accuracy))
+#%%
+##run this sperately from the rest of code
+i = difficultExamples[1]
+Xi = np.reshape(X_test[i], (28,28))
+plt.imshow(Xi) 
+predictions[i]
