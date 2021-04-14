@@ -41,8 +41,8 @@ def logReg_SGD(X, Y, alpha, batch):
     N, d = X.shape
     X = np.insert(X, 0, 1, axis = 1)
     K = Y.shape[1]
+    
     batch_size = batch
-    batch_idx = 0
     
     beta = np.zeros((K, d+1))
     Lvals = []
@@ -54,7 +54,8 @@ def logReg_SGD(X, Y, alpha, batch):
         
         print("Epoch is: " + str(ep) + " Cost is: " + str(L))
         
-        #prm = np.random.permutation(N)
+        prm = np.random.permutation(N)
+        batch_idx = 0
 
         #for i in prm:
         for i in range(0, N, batch_size):
@@ -62,14 +63,22 @@ def logReg_SGD(X, Y, alpha, batch):
             stop_idx = min(stop_idx, N)
             num_examples_in_batch = stop_idx - i
             
-            XiHat = X[i]
-            Yi = Y[i]
+            grad_Li = np.zeros(d+1)
             
-            qi = softmax(beta @ XiHat)
-            grad_Li = np.outer(qi-Yi, XiHat)
             
+            for j in prm[i:stop_idx]:
+                XiHat = X[i]
+                Yi = Y[i]
+            
+                qi = softmax(beta @ XiHat)
+                grad_Li = np.outer(qi-Yi, XiHat)
+            
+            grad_Li = grad_Li/num_examples_in_batch
+
             beta = beta - alpha*grad_Li
-        grad_Li = grad_Li/num_examples_in_batch
+        
+            batch_idx += 1
+        
     return beta, Lvals
             
 def predictLabels(X, beta):
@@ -150,13 +159,13 @@ i = difficultExamples[1]
 Xi = np.reshape(X_test[i], (28,28))
 plt.imshow(Xi) 
 plt.show()
-print("Difficult example #1 predicted value: " + str(predictions[i]))
-print("Difficult example #1 actual value: " + str(Y_test[i]))
+print("Difficult example #2 predicted value: " + str(predictions[i]))
+print("Difficult example #2 actual value: " + str(Y_test[i]))
 
 i = difficultExamples[2]
 Xi = np.reshape(X_test[i], (28,28))
 plt.imshow(Xi) 
 plt.show()
-print("Difficult example #1 predicted value: " + str(predictions[i]))
-print("Difficult example #1 actual value: " + str(Y_test[i]))
+print("Difficult example #3 predicted value: " + str(predictions[i]))
+print("Difficult example #3 actual value: " + str(Y_test[i]))
 
