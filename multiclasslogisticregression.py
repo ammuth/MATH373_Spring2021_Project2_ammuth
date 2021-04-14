@@ -36,11 +36,13 @@ def eval_L(X, Y, beta):
         
     return L
 
-def logReg_SGD(X, Y, alpha):
+def logReg_SGD(X, Y, alpha, batch):
     numEpochs = 5
     N, d = X.shape
     X = np.insert(X, 0, 1, axis = 1)
     K = Y.shape[1]
+    batch_size = batch
+    batch_idx = 0
     
     beta = np.zeros((K, d+1))
     Lvals = []
@@ -52,8 +54,14 @@ def logReg_SGD(X, Y, alpha):
         
         print("Epoch is: " + str(ep) + " Cost is: " + str(L))
         
-        prm = np.random.permutation(N)
-        for i in prm:
+        #prm = np.random.permutation(N)
+
+        #for i in prm:
+        for i in range(0, N, batch_size):
+            stop_idx = i + batch_size
+            stop_idx = min(stop_idx, N)
+            num_examples_in_batch = stop_idx - i
+            
             XiHat = X[i]
             Yi = Y[i]
             
@@ -61,7 +69,7 @@ def logReg_SGD(X, Y, alpha):
             grad_Li = np.outer(qi-Yi, XiHat)
             
             beta = beta - alpha*grad_Li
-            
+        grad_Li = grad_Li/num_examples_in_batch
     return beta, Lvals
             
 def predictLabels(X, beta):
@@ -94,7 +102,7 @@ Y_train = pd.get_dummies(Y_train).values
 
 alpha = 0.01
 
-beta, Lvals = logReg_SGD(X_train, Y_train, alpha)
+beta, Lvals = logReg_SGD(X_train, Y_train, alpha,4)
 
 
 plt.semilogy(Lvals)
@@ -129,7 +137,23 @@ accuracy = numCorrect/N_test
 print('Accuracy: ' + str(accuracy))
 #%%
 ##run this sperately from the rest of code
+probabilities[difficultExamples[0:5]]
+
+i = difficultExamples[0]
+Xi = np.reshape(X_test[i], (28,28))
+plt.imshow(Xi) 
+print(predictions[i])
+print(Y_test[i])
+
 i = difficultExamples[1]
 Xi = np.reshape(X_test[i], (28,28))
 plt.imshow(Xi) 
-predictions[i]
+print(predictions[i])
+print(Y_test[i])
+
+i = difficultExamples[2]
+Xi = np.reshape(X_test[i], (28,28))
+plt.imshow(Xi) 
+print(predictions[i])
+print(Y_test[i])
+

@@ -43,21 +43,11 @@ def eval_L(X, Y, beta):
         
     return L
 
-def grad_L(beta, X, y):
-    #This function computes the gradient of L.
-    N = X.shape[0]
-    grad = 0
-    for i in range(N):
-        xiHat = X[i]
-        yi = y[i]
-        
-        yi_pred = softmax(np.vdot(xiHat, beta))
-        
-        grad = grad + (softmax(np.vdot(xiHat, beta)) - yi)*xiHat
-        
-        return grad/N
-    
+
+
+
 def gradient_descent(X, Y, alpha):
+    #batch_size = batch
     numEpochs = 100
     N, d = X.shape
     X = np.insert(X, 0, 1, axis = 1)
@@ -74,17 +64,26 @@ def gradient_descent(X, Y, alpha):
         print("Epoch is: " + str(ep) + " Cost is: " + str(L))
         
         #prm = np.random.permutation(N)
+        #prm = prm[0:batch_size]
+        #batch_idx = 0
         for i in range(N):
+            #stop_idx = i + batch_size
+            #stop_idx = min(stop_idx, N)
+            #num_examples_in_batch = stop_idx - i
+            
             XiHat = X[i]
             Yi = Y[i]
             
             qi = softmax(beta @ XiHat)
             grad_Li = np.outer(qi-Yi, XiHat)
-            
+        
             beta = beta - alpha*grad_Li
             
-    return beta/N, Lvals
+        grad_Li = grad_Li/N
 
+        #batch_idx += 1
+            
+    return beta, Lvals
 
 
 #N_train, numRows, numCols = X_train.shape
@@ -93,7 +92,7 @@ def gradient_descent(X, Y, alpha):
 
 Y_train = pd.get_dummies(Y_train).values
 
-alpha = 0.04
+alpha = 0.02
 
 
 beta, Lvals = gradient_descent(X_train, Y_train, alpha)
