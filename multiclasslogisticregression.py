@@ -106,7 +106,7 @@ beta, Lvals = logReg_SGD(X_train, Y_train, alpha,4)
 
 
 plt.semilogy(Lvals)
-
+plt.show()
 #%%
 N_test = X_test.shape[0]
 #%%
@@ -142,18 +142,21 @@ probabilities[difficultExamples[0:5]]
 i = difficultExamples[0]
 Xi = np.reshape(X_test[i], (28,28))
 plt.imshow(Xi) 
-print(predictions[i])
-print(Y_test[i])
+plt.show()
+print("Difficult example #1 predicted value: " + str(predictions[i]))
+print("Difficult example #1 actual value: " + str(Y_test[i]))
 
 i = difficultExamples[1]
 Xi = np.reshape(X_test[i], (28,28))
 plt.imshow(Xi) 
-print(predictions[i])
-print(Y_test[i])
+plt.show()
+print("Difficult example #1 predicted value: " + str(predictions[i]))
+print("Difficult example #1 actual value: " + str(Y_test[i]))
 
 i = difficultExamples[2]
 Xi = np.reshape(X_test[i], (28,28))
 plt.imshow(Xi) 
-print(predictions[i])
-print(Y_test[i])
+plt.show()
+print("Difficult example #1 predicted value: " + str(predictions[i]))
+print("Difficult example #1 actual value: " + str(Y_test[i]))
 
